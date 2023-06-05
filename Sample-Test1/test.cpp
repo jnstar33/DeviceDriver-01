@@ -22,7 +22,6 @@ TEST(DeviceDriverTest, FiveRead) {
 
 	DeviceDriver driver(&mockFlash);
 	driver.read(0xA);
-
 }
 
 TEST(DeviceDriverTest, Exception) {
@@ -34,10 +33,8 @@ TEST(DeviceDriverTest, Exception) {
 		.WillOnce(Return(77))
 		.WillOnce(Return(1));
 
-
 	DeviceDriver driver(&mockFlash);
-	
-	EXPECT_THROW(driver.read(0x33), std::exception);
+	EXPECT_THROW(driver.read(0x33), ReadFailException);
 }
 
 TEST(DeviceDriverTest, Read) {
@@ -49,13 +46,8 @@ TEST(DeviceDriverTest, Read) {
 		.WillOnce(Return(77))
 		.WillOnce(Return(77));
 
-
 	DeviceDriver driver(&mockFlash);
-
 	int actual = driver.read(0x00);
-
 	EXPECT_THAT(77, Eq(actual));
-
-	
 }
 
