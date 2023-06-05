@@ -9,15 +9,20 @@ using namespace std;
 DeviceDriver::DeviceDriver(FlashMemoryDevice* hardware) : m_hardware(hardware)
 {}
 
+int DeviceDriver::readWithDelay(long address)
+{
+    Sleep(200);
+	return (int)(m_hardware->read(address));
+}
+
 int DeviceDriver::read(long address)
 {
-    int firstReadValue = (int)(m_hardware->read(address));
+    int firstReadValue = readWithDelay(address);
     
     for (int i=2 ; i<= TotalReadTryCount ; i++)
     {
-	    int nextResult = (int)(m_hardware->read(address));
+	    int nextResult = readWithDelay(address);
         if (firstReadValue == nextResult) continue;
-        
         throw std::exception("Exception!!");
         
     }

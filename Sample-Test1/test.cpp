@@ -32,12 +32,12 @@ TEST(DeviceDriverTest, Exception) {
 		.WillOnce(Return(77))
 		.WillOnce(Return(77))
 		.WillOnce(Return(77))
-		.WillOnce(Return(77));
+		.WillOnce(Return(1));
 
 
 	DeviceDriver driver(&mockFlash);
 	
-	EXPECT_THROW(driver.read(0x33), std:::exception);
+	EXPECT_THROW(driver.read(0x33), std::exception);
 }
 
 TEST(DeviceDriverTest, Read) {

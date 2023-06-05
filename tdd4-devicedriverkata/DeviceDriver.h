@@ -5,6 +5,7 @@ class DeviceDriver
 {
 public:
     DeviceDriver(FlashMemoryDevice* hardware);
+    int readWithDelay(long address);
     int read(long address);
     void write(long address, int data);
 
