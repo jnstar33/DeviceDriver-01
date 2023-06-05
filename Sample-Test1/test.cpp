@@ -24,7 +24,7 @@ TEST(DeviceDriverTest, FiveRead) {
 	driver.read(0xA);
 }
 
-TEST(DeviceDriverTest, Exception) {
+TEST(DeviceDriverTest, ReadFailException) {
 	MockFlashMemoryDevice mockFlash;
 	EXPECT_CALL(mockFlash, read)
 		.WillOnce(Return(77))
@@ -49,5 +49,15 @@ TEST(DeviceDriverTest, Read) {
 	DeviceDriver driver(&mockFlash);
 	int actual = driver.read(0x00);
 	EXPECT_THAT(77, Eq(actual));
+}
+
+TEST(DeviceDriverTest, WriteFailException) {
+	MockFlashMemoryDevice mockFlash;
+	EXPECT_CALL(mockFlash, write)
+		.WillOnce(Return());
+
+	DeviceDriver driver(&mockFlash);
+	EXPECT_THROW(driver.write(0x33, 33), WriteFailException);
+
 }
 

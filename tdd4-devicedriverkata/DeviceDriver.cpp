@@ -22,13 +22,29 @@ private:
 	std::string message_;
 };
 
+class WriteFailException : public std::exception
+{
+public:
+	explicit WriteFailException(const std::string& message) : message_(message)
+	{
+	}
+
+	const char* what() const noexcept override
+	{
+		return message_.c_str();
+	}
+
+private:
+	std::string message_;
+};
+
 DeviceDriver::DeviceDriver(FlashMemoryDevice* hardware) : m_hardware(hardware)
 {
 }
 
 int DeviceDriver::readWithDelay(long address)
 {
-	Sleep(200);
+	//Sleep(200);
 	return m_hardware->read(address);
 }
 
@@ -47,6 +63,6 @@ int DeviceDriver::read(long address)
 
 void DeviceDriver::write(long address, int data)
 {
-	// TODO: implement this method
 	m_hardware->write(address, static_cast<unsigned char>(data));
+	throw WriteFailException("Exception!!");
 }
