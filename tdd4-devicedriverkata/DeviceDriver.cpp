@@ -23,30 +23,30 @@ private:
 };
 
 DeviceDriver::DeviceDriver(FlashMemoryDevice* hardware) : m_hardware(hardware)
-{}
+{
+}
 
 int DeviceDriver::readWithDelay(long address)
 {
-    //Sleep(200);
-	return (int)(m_hardware->read(address));
+	Sleep(200);
+	return m_hardware->read(address);
 }
 
 int DeviceDriver::read(long address)
 {
-    int firstReadValue = readWithDelay(address);
-    
-    for (int i=2 ; i<= TotalReadTryCount ; i++)
-    {
-	    int nextResult = readWithDelay(address);
-        if (firstReadValue == nextResult) continue;
-        throw ReadFailException("Exception!!");
-        
-    }
-    return firstReadValue;
+	int firstReadValue = readWithDelay(address);
+
+	for (int i = 2; i <= TotalReadTryCount; i++)
+	{
+		int nextResult = readWithDelay(address);
+		if (firstReadValue == nextResult) continue;
+		throw ReadFailException("Exception!!");
+	}
+	return firstReadValue;
 }
 
 void DeviceDriver::write(long address, int data)
 {
-    // TODO: implement this method
-    m_hardware->write(address, (unsigned char)data);
+	// TODO: implement this method
+	m_hardware->write(address, static_cast<unsigned char>(data));
 }
