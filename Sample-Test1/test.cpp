@@ -53,11 +53,10 @@ TEST(DeviceDriverTest, Read) {
 
 TEST(DeviceDriverTest, WriteFailException) {
 	MockFlashMemoryDevice mockFlash;
-	EXPECT_CALL(mockFlash, write)
-		.WillOnce(Return());
-
+	EXPECT_CALL(mockFlash, read)
+		.WillOnce(Return(0x33));
+	
 	DeviceDriver driver(&mockFlash);
 	EXPECT_THROW(driver.write(0x33, 33), WriteFailException);
-
 }
 
